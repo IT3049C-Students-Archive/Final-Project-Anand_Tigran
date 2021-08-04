@@ -12,16 +12,24 @@ const config ={
     create,
     update
   },
+  physica:{
+    default: arcade,
+    arcade: {
+      gravity: { y: 500},
+    },
+  }
 };
 
-const game = new Phaser.game(config);
+const game = new Phaser.Game(config);
 
 function preload(){
-
+  // loaded the background image
+  this.load.image("background", "assets/background.png");
 }
 
 function create(){
-
+  const backgroundImage = this.add.image(0,0,"background").setOrigin(0,0);
+  backgroundImage.setScale(2.5, 1);
 }
 
 function update(){
