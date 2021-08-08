@@ -16,7 +16,7 @@ const config ={
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
-      debug: false
+      debug: true
     },
   }
 };
@@ -49,7 +49,7 @@ function create(){
   const platforms = map.createStaticLayer('Platforms', tileset,0,200);
   //addition of ledge
   ledge = this.physics.add.staticGroup();
-  ledge.create(800, 180, 'ledge');
+  ledge.create(815, 195, 'ledge');
   
   //creation of player
   this.player = this.physics.add.sprite(50,300,'player');
@@ -103,7 +103,6 @@ function create(){
     const spike = this.spikes.create(spikeObject.x, spikeObject.y + 200 - spikeObject.height, 'spike').setOrigin(0, 0);
     spike.body.setSize(spike.width, spike.height - 30).setOffset(0, 30);
   });
-
 
   // set collision
   platforms.setCollisionByExclusion(-1, true);
