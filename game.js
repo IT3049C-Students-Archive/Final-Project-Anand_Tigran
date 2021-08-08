@@ -60,8 +60,8 @@ function create(){
   // animation of the player
   // walking animation
   this.anims.create({
-    key:'walk',
-    frames: this.anims.generateFrameNames('player',{
+    key: 'walk',
+    frames: this.anims.generateFrameNames('player', {
       prefix: 'robo_player_',
       start: 2,
       end: 3,
@@ -71,14 +71,14 @@ function create(){
   });
   // idle animation
   this.anims.create({
-    key: 'walk',
-    frames: [{key:'player', frame:'robo_player_0'}],
+    key: 'idle',
+    frames: [{ key: 'player', frame: 'robo_player_0' }],
     frameRate: 15,
   });
   //jump animation
   this.anims.create({
     key: 'jump',
-    frames: [{ key:'player', frame:'robo_player_1'}],
+    frames: [{ key: 'player', frame: 'robo_player_1' }],
     frameRate: 15,
   });
   // enable cursor key events
@@ -91,7 +91,7 @@ function create(){
 }
 
 function update() {
-  // Control the player with left or right keys
+  // left or right key control
   if (this.cursors.left.isDown) {
     this.player.setVelocityX(-200);
     if (this.player.body.onFloor()) {
@@ -103,17 +103,14 @@ function update() {
       this.player.play('walk', true);
     }
   } else {
-    // If no keys are pressed, the player keeps still
+    // idle animation
     this.player.setVelocityX(0);
-    // Only show the idle animation if the player is footed
-    // If this is not included, the player would look idle while jumping
+    // only whne on ledge or platform
     if (this.player.body.onFloor()) {
       this.player.play('idle', true);
     }
   }
-
-  // Player can jump while walking any direction by pressing the space bar
-  // or the 'UP' arrow
+  // Player jump ip when spacebar or up arrow is clicked
   if ((this.cursors.space.isDown || this.cursors.up.isDown) && this.player.body.onFloor()) {
     this.player.setVelocityY(-350);
     this.player.play('jump', true);
