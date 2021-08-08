@@ -139,6 +139,7 @@ function create(){
 }
 
 function update() {
+  scoreText.x = this.player.body.position.x; 
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-200);
