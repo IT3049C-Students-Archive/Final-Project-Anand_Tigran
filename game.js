@@ -21,6 +21,9 @@ const config ={
   }
 };
 var ledge
+var keyA
+var keyD
+var keyW
 const game = new Phaser.Game(config);
 
 function preload(){
@@ -81,6 +84,10 @@ function create(){
   });
   // enable cursor key events
   this.cursors = this.input.keyboard.createCursorKeys();
+  // WASD Movement
+  keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+  keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
   // addition of spikes
   // set properties of the spikes
@@ -106,11 +113,11 @@ function create(){
 
 function update() {
   // left or right key control
-  if (this.cursors.left.isDown && this.player.body.onFloor()) {
+  if ((this.cursors.left.isDown || keyA.isDown ) && this.player.body.onFloor()) {
     this.player.setVelocityX(-200);
     this.player.play('walk', true);
   } 
-  else if (this.cursors.right.isDown && this.player.body.onFloor()) {
+  else if ((this.cursors.right.isDown || keyD.isDown ) && this.player.body.onFloor()) {
     this.player.setVelocityX(200);
     this.player.play('walk', true);
   } 
@@ -123,7 +130,7 @@ function update() {
     }
   }
   // Player jump ip when spacebar or up arrow is clicked
-  if ((this.cursors.space.isDown || this.cursors.up.isDown) && this.player.body.onFloor()) {
+  if ((this.cursors.space.isDown || this.cursors.up.isDown || keyW.isDown) && this.player.body.onFloor()) {
     this.player.setVelocityY(-350);
     this.player.play('jump', true);
   }
