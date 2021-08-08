@@ -106,20 +106,18 @@ function create(){
 
 function update() {
   // left or right key control
-  if (this.cursors.left.isDown) {
+  if (this.cursors.left.isDown && this.player.body.onFloor()) {
     this.player.setVelocityX(-200);
-    if (this.player.body.onFloor()) {
-      this.player.play('walk', true);
-    }
-  } else if (this.cursors.right.isDown) {
+    this.player.play('walk', true);
+  } 
+  else if (this.cursors.right.isDown && this.player.body.onFloor()) {
     this.player.setVelocityX(200);
-    if (this.player.body.onFloor()) {
-      this.player.play('walk', true);
-    }
-  } else {
+    this.player.play('walk', true);
+  } 
+  else {
     // idle animation
     this.player.setVelocityX(0);
-    // only whne on ledge or platform
+    // only when on ledge or platform
     if (this.player.body.onFloor()) {
       this.player.play('idle', true);
     }
