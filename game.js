@@ -1,7 +1,7 @@
 const config ={
   type: Phaser.AUTO,
   parent: 'game',
-  width: 800,
+  width: 4100,
   height:640,
   scale: {
     mode:Phaser.Scale.RESIZE,
@@ -58,9 +58,9 @@ function create(){
   
   //creation of player
   
-  this.player = this.physics.add.sprite(50,300,'player');
+  this.player = this.physics.add.sprite(120,300,'player');
   this.player.setBounce(0.1);
-  this.player.setCollideWorldBounds(true);
+  this.player.setCollideWorldBounds(false);
   // created physics with map objects
   this.physics.add.collider(this.player, platforms);
   this.physics.add.collider(this.player,ledge);
@@ -134,7 +134,7 @@ function create(){
   this.physics.add.collider(stars, spikeObjects);
   // check to see if player overlaps with star
   this.physics.add.overlap(this.player, stars, collectStar, null, this);
-  this.cameras.main.setBounds(0, 0, 1200, 600);
+  this.cameras.main.setBounds(0, 0, 4100, 800);
   this.cameras.main.startFollow(this.player);
 }
 
@@ -163,7 +163,7 @@ function update() {
   }
   // Player jump ip when spacebar or up arrow is clicked
   if ((this.cursors.space.isDown || this.cursors.up.isDown || keyW.isDown) && this.player.body.onFloor()) {
-    this.player.setVelocityY(-350);
+    this.player.setVelocityY(-500);
     this.player.play('jump', true);
   }
 
