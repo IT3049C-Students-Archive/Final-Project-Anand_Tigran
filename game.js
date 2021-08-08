@@ -47,7 +47,34 @@ function create(){
   ledge = this.physics.add.staticGroup();
   ledge.create(800, 180, 'ledge');
 
+  
+  
+  
+  //creation of player
+  this.player = this.physics.add.sprite(50,300,'player');
+  this.player.setBounce(0.1);
+  this.player.setCollideWorldBounds(true);
+  // created physics with map objects
+  this.physics.add.collider(this.player, platforms);
+  this.physics.add.collider(this.player,ledge);
+  // animation of the player
+  // walking animation
+  this.anims.create({
+    key:'walk',
+    frames: this.anims.generateFramesNames('player',{
+      prefix: 'robo_player_',
+      start: 2,
+      end: 3,
+    }),
+    frameRate: 15,
+    repeat: -1
+  });
 
+
+
+  // set collision
+  platforms.setCollisionByExclusion(-1, true);
+  this.physics.add.collider(this.player, ledge);
 }
 
 function update(){
