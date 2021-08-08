@@ -16,6 +16,7 @@ const config ={
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
+      debug: false
     },
   }
 };
@@ -100,7 +101,7 @@ function create(){
   // set collision
   platforms.setCollisionByExclusion(-1, true);
   this.physics.add.collider(this.player, ledge);
-  this.physics.add.collider(this.player, this.spikes,playerHit,null, this);
+  this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
 }
 
 function update() {
@@ -137,3 +138,17 @@ function update() {
     this.player.setFlipX(true);
   }
 }
+function playerHit(player, spike){
+  player.setVelocity(0,0);
+  player.setX(50);
+  player.setY(300);
+  player.play('idle', true);
+  player.setAlpha(0);
+  let tw = this.tweens.add({
+    targets: player,
+    alpha: 1,
+    duration: 100,
+    ease: "Linear",
+    repeat: 5,
+  });
+} 
