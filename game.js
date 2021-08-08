@@ -20,15 +20,20 @@ const config ={
     },
   }
 };
-var ledge
-var keyA
-var keyD
-var keyW
+var scoreText;
+var score = 0;
+var stars;
+var ledge;
+var keyA;
+var keyD;
+var keyW;
 const game = new Phaser.Game(config);
 
 function preload(){
   // loaded the background image
   this.load.image("background", "assets/images/background.png");
+  //load star
+  this.load.image("star","assets/images/star.png");
   //loading the map
   this.load.image("spike","assets/images/spike.png");
   //load player
@@ -89,6 +94,18 @@ function create(){
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
+  // add stars to map
+  stars = this.physics.add.group({
+    key: 'star',
+    repeat: 8,
+    setXY: { x: 50, y: 0, stepX: 100 }
+  });
+  // give them a bounce
+  stars.children.iterate(function (child) {
+  //  Give each star a slightly different bounce
+  child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  });
+
   // addition of spikes
   // set properties of the spikes
   this.spikes = this.physics.add.group({
@@ -104,10 +121,18 @@ function create(){
     spike.body.setSize(spike.width, spike.height - 30).setOffset(0, 30);
   });
 
+  // score count
+  scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
   // set collision
   platforms.setCollisionByExclusion(-1, true);
   this.physics.add.collider(this.player, ledge);
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+  this.physics.add.collider(stars, platforms);
+  this.physics.add.collider(stars, ledge);
+  this.physics.add.collider(stars, spikeObjects);
+  // check to see if player overlaps with star
+  this.physics.add.overlap(this.player, stars, collectStar, null, this);
 }
 
 function update() {
@@ -160,3 +185,20 @@ function playerHit(player, spike){
     repeat: 5,
   });
 } 
+function collectStar(player, star){
+  star.disableBody(true, true);
+  //  Add and update the score
+  score += 25;
+  scoreText.setText('Score: ' + score);
+
+  // redrop the stars
+  if (stars.countActive(true) === 0)
+    {
+      //  A new batch of stars to collect
+      stars.children.iterate(function (child) {
+        child.enableBody(true, child.x, 0, true, true);
+      });
+    }
+
+
+}
