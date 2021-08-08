@@ -2,7 +2,7 @@ const config ={
   type: Phaser.AUTO,
   parent: 'game',
   width: 4100,
-  height:800,
+  height:900,
   scale: {
     mode:Phaser.Scale.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -126,7 +126,7 @@ function create(){
   this.physics.add.collider(this.diamond, spikeObjects);
   this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
   // check to see if player overlaps with star
-  this.cameras.main.setBounds(0, 0, 4100, 800);
+  this.cameras.main.setBounds(0, 0, 4100, 840);
   this.cameras.main.startFollow(this.player);
 }
 
@@ -135,13 +135,13 @@ function update() {
   scoreText.y = this.player.body.position.y - 150;
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
-    this.player.setVelocityX(-200);
+    this.player.setVelocityX(-150);
     if(this.player.body.onFloor()) {
       this.player.play('walk', true);
     }
   } 
   else if (this.cursors.right.isDown || keyD.isDown ) {
-    this.player.setVelocityX(200);
+    this.player.setVelocityX(150);
     if(this.player.body.onFloor()) {
       this.player.play('walk', true);
     } 
@@ -156,7 +156,7 @@ function update() {
   }
   // Player jump ip when spacebar or up arrow is clicked
   if ((this.cursors.space.isDown || this.cursors.up.isDown || keyW.isDown) && this.player.body.onFloor()) {
-    this.player.setVelocityY(-500);
+    this.player.setVelocityY(-450);
     this.player.play('jump', true);
   }
 
