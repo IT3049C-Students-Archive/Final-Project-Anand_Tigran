@@ -113,14 +113,18 @@ function create(){
 
 function update() {
   // left or right key control
-  if ((this.cursors.left.isDown || keyA.isDown ) && this.player.body.onFloor()) {
+  if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-200);
-    this.player.play('walk', true);
+    if(this.player.body.onFloor()) {
+      this.player.play('walk', true);
+    }
   } 
-  else if ((this.cursors.right.isDown || keyD.isDown ) && this.player.body.onFloor()) {
+  else if (this.cursors.right.isDown || keyD.isDown ) {
     this.player.setVelocityX(200);
-    this.player.play('walk', true);
-  } 
+    if(this.player.body.onFloor()) {
+      this.player.play('walk', true);
+    } 
+  }
   else {
     // idle animation
     this.player.setVelocityX(0);
