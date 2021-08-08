@@ -20,6 +20,7 @@ const config ={
   }
 };
 var ledge
+var cursors
 const game = new Phaser.Game(config);
 
 function preload(){
@@ -69,7 +70,20 @@ function create(){
     frameRate: 15,
     repeat: -1
   });
-
+  // idle animation
+  this.anims.create({
+    key: 'walk',
+    frames: [{key:'player', frame:'robo_player_0'}],
+    frameRate: 15,
+  });
+  //jump animation
+  this.anims.create({
+    key: 'jump',
+    frames: [{ key:'player', frame:'robo_player_1'}],
+    frameRate: 15,
+  });
+// enable cursor key events
+cursors = this.input.keyboard.createCursorKeys();
 
 
   // set collision
