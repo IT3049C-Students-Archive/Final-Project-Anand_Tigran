@@ -52,6 +52,7 @@ function create(){
   ledge.create(815, 195, 'ledge');
   
   //creation of player
+  
   this.player = this.physics.add.sprite(50,300,'player');
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
@@ -108,6 +109,8 @@ function create(){
   platforms.setCollisionByExclusion(-1, true);
   this.physics.add.collider(this.player, ledge);
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+  this.cameras.main.setBounds(0, 0, 1200, 600);
+  this.cameras.main.startFollow(this.player);
 }
 
 function update() {
