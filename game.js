@@ -23,7 +23,6 @@ const config ={
 var scoreText;
 var score = 0;
 var stars;
-var ledge;
 var keyA;
 var keyD;
 var keyW;
@@ -38,7 +37,6 @@ function preload(){
   this.load.image("spike","assets/images/spike.png");
   //load player
   this.load.atlas("player","assets/images/kenney_player.png","assets/images/kenney_player_atlas.json");
-  this.load.image('ledge', 'assets/images/ledge.png');
   // load tiles
   this.load.image('tiles', 'assets/tilesets/platformPack_tilesheet.png');
   // load map
@@ -53,8 +51,6 @@ function create(){
   const tileset = map.addTilesetImage('kenney_simple_platformer', 'tiles');
   const platforms = map.createStaticLayer('Platforms', tileset,0,200);
   //addition of ledge
-  ledge = this.physics.add.staticGroup();
-  ledge.create(815, 195, 'ledge');
   
   //creation of player
   
@@ -64,7 +60,6 @@ function create(){
 // this.player.setCollideWorldBounds(false); 
   // created physics with map objects
   this.physics.add.collider(this.player, platforms);
-  this.physics.add.collider(this.player,ledge);
   // animation of the player
   // walking animation
   this.anims.create({
@@ -128,10 +123,8 @@ function create(){
 
   // set collision
   platforms.setCollisionByExclusion(-1, true);
-  this.physics.add.collider(this.player, ledge);
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
   this.physics.add.collider(stars, platforms);
-  this.physics.add.collider(stars, ledge);
   this.physics.add.collider(stars, spikeObjects);
   // check to see if player overlaps with star
   this.physics.add.overlap(this.player, stars, collectStar, null, this);
