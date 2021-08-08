@@ -61,6 +61,7 @@ function create(){
   this.player = this.physics.add.sprite(120,300,'player');
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(false);
+// this.player.setCollideWorldBounds(false); 
   // created physics with map objects
   this.physics.add.collider(this.player, platforms);
   this.physics.add.collider(this.player,ledge);
@@ -174,13 +175,28 @@ function update() {
     // otherwise, make them face the other side
     this.player.setFlipX(true);
   }
+  if(this.player.body.y > 800 ){
+    revive(this.player);
+    let tw = this.tweens.add({
+      targets: this.player,
+      alpha: 1,
+      duration: 100,
+      ease: "Linear",
+      repeat: 5,
+    });
+  }
 }
-function playerHit(player, spike){
+function revive(player){
   player.setVelocity(0,0);
   player.setX(50);
   player.setY(300);
   player.play('idle', true);
   player.setAlpha(0);
+}
+function playerHit(player, spike){
+  score -= 50;
+  scoreText.setText('Score: ' + score);
+  revive(player);
   let tw = this.tweens.add({
     targets: player,
     alpha: 1,
