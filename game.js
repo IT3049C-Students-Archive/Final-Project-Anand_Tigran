@@ -2,7 +2,7 @@ const config ={
   type: Phaser.AUTO,
   parent: 'game',
   width: 4100,
-  height:640,
+  height:800,
   scale: {
     mode:Phaser.Scale.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -35,6 +35,7 @@ function preload(){
   this.load.image("star","assets/images/star.png");
   //loading the map
   this.load.image("spike","assets/images/spike.png");
+  this.load.image("diamond","assets/images/diamond.png");
   //load player
   this.load.atlas("player","assets/images/kenney_player.png","assets/images/kenney_player_atlas.json");
   // load tiles
@@ -45,7 +46,7 @@ function preload(){
 
 function create(){
   const backgroundImage = this.add.image(0,0,"background").setOrigin(0,0);
-  backgroundImage.setScale(2.5, 1);
+  backgroundImage.setScale(5, 1);
   // create map and ledges
   const map = this.make.tilemap({ key:"map"});
   const tileset = map.addTilesetImage('kenney_simple_platformer', 'tiles');
@@ -90,19 +91,6 @@ function create(){
   keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-
-  // add stars to map
-  stars = this.physics.add.group({
-    key: 'star',
-    repeat: 8,
-    setXY: { x: 50, y: 0, stepX: 100 }
-  });
-  // give them a bounce
-  stars.children.iterate(function (child) {
-  //  Give each star a slightly different bounce
-  child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-  });
-
   // addition of spikes
   // set properties of the spikes
   this.spikes = this.physics.add.group({
@@ -117,17 +105,27 @@ function create(){
     const spike = this.spikes.create(spikeObject.x, spikeObject.y + 200 - spikeObject.height, 'spike').setOrigin(0, 0);
     spike.body.setSize(spike.width, spike.height - 30).setOffset(0, 30);
   });
+  this.diamond = this.physics.add.group({
+    allowGravity: false,
+    immovable: false
+  });
+  const diamondObjects = map.getObjectLayer('Diamonds')['objects'];
+  diamondObjects.forEach(diamondObject => {
+    const diamond = this.diamond.create(diamondObject.x, diamondObject.y + 150 - diamondObject.height, 'diamond').setOrigin(0, 0);
+    diamond.body.setSize(diamond.width - 59, diamond.height - 60).setOffset(28.5, 32);
+  });
 
   // score count
   scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
   // set collision
   platforms.setCollisionByExclusion(-1, true);
+  
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
-  this.physics.add.collider(stars, platforms);
-  this.physics.add.collider(stars, spikeObjects);
+  this.physics.add.collider(this.diamond, platforms);
+  this.physics.add.collider(this.diamond, spikeObjects);
+  this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
   // check to see if player overlaps with star
-  this.physics.add.overlap(this.player, stars, collectStar, null, this);
   this.cameras.main.setBounds(0, 0, 4100, 800);
   this.cameras.main.startFollow(this.player);
 }
@@ -197,21 +195,12 @@ function playerHit(player, spike){
     ease: "Linear",
     repeat: 5,
   });
-} 
-function collectStar(player, star){
-  star.disableBody(true, true);
-  //  Add and update the score
-  score += 25;
-  scoreText.setText('Score: ' + score);
-
-  // redrop the stars
-  if (stars.countActive(true) === 0)
-    {
-      //  A new batch of stars to collect
-      stars.children.iterate(function (child) {
-        child.enableBody(true, child.x, 0, true, true);
-      });
-    }
-
-
 }
+function collectDiamonds(player, diamond){
+ diamond.disableBody(true, true);
+  score += 300;
+  scoreText.setText('Score: ' + score);
+}
+
+
+
