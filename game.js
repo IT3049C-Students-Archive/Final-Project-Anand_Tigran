@@ -50,7 +50,6 @@ function create(){
   const map = this.make.tilemap({ key:"map"});
   const tileset = map.addTilesetImage('kenney_simple_platformer', 'tiles');
   const platforms = map.createStaticLayer('Platforms', tileset,0,200);
-  //addition of ledge
   
   //creation of player
   
@@ -119,7 +118,8 @@ function create(){
   });
 
   // score count
-  scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+  scoreText = this.add.text(100, 250, 'score: 0', { fontSize: '32px', fill: '#000' });
+
 
   // set collision
   platforms.setCollisionByExclusion(-1, true);
@@ -134,6 +134,7 @@ function create(){
 
 function update() {
   scoreText.x = this.player.body.position.x; 
+  scoreText.y = this.player.body.position.y - 150;
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-200);
