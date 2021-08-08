@@ -57,6 +57,7 @@ function create(){
   ledge.create(815, 195, 'ledge');
   
   //creation of player
+  
   this.player = this.physics.add.sprite(50,300,'player');
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
@@ -133,6 +134,8 @@ function create(){
   this.physics.add.collider(stars, spikeObjects);
   // check to see if player overlaps with star
   this.physics.add.overlap(this.player, stars, collectStar, null, this);
+  this.cameras.main.setBounds(0, 0, 1200, 600);
+  this.cameras.main.startFollow(this.player);
 }
 
 function update() {
