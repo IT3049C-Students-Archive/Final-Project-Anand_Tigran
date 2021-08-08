@@ -186,7 +186,7 @@ function revive(player){
   player.setAlpha(0);
 }
 function playerHit(player, spike){
-  score -= 50;
+  score -= 150;
   scoreText.setText('Score: ' + score);
   revive(player);
   let tw = this.tweens.add({
@@ -199,7 +199,7 @@ function playerHit(player, spike){
 }
 function collectDiamonds(player, diamond){
  diamond.disableBody(true, true);
-  score += 300;
+  score += 150;
   scoreText.setText('Score: ' + score);
 }
 
