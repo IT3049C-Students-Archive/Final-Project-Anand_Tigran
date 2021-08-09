@@ -150,9 +150,7 @@ function create(){
   this.cameras.main.startFollow(this.player);
 }
 function update() {
-
-  
-  // fixes score to camera
+  // fixes text to camera
   scoreText.setScrollFactor(0,0);
   gameName.setScrollFactor(0,0);
   // left or right key control
@@ -229,10 +227,11 @@ function goThroughDoor (player, door){
   if(this.diamond.countActive(true) === 0)
   {
     door.disableBody(true, true);
-    endGameText = this.add.text(150, 100, 'Thank You for Playing!', { fontSize: '32px', fill: '#000' });
+    endGameText = this.add.text(150, 100, 'Thank You for Playing! \n Refresh Page to Play Again', { fontSize: '32px', fill: '#000' });
     endGameText.setScrollFactor(0,0); 
   }
 }
+
 
 
 
