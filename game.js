@@ -29,6 +29,7 @@ var keyW;
 const game = new Phaser.Game(config);
 
 function preload(){
+  this.load.image('gameTitle', "assets/images/gameTitle.png");
   // loaded the background image
   this.load.image("background", "assets/images/background.png");
   //load star
@@ -47,6 +48,7 @@ function preload(){
 }
 
 function create(){
+  this.add.image(400, 300, 'gameTitle');
   const backgroundImage = this.add.image(0,0,"background").setOrigin(0,0);
   backgroundImage.setScale(5, 1);
   // create map and ledges
@@ -125,7 +127,8 @@ function create(){
     door.body.setSize(door.width, door.height).setOffset(0, 0);
   });
   // score count
-  scoreText = this.add.text(50, 50, 'score: 0', { fontSize: '32px', fill: '#000' });
+  scoreText = this.add.text(565, 20, 'Score: 0', { fontSize: '32px', fill: '#000' });
+  gameName = this.add.text(20, 20, 'Diamond Dash', { fontSize: '32px', fill: '#000' });
 
 
   // set collision
@@ -144,6 +147,7 @@ function update() {
   //scoreText.y = this.player.body.position.y - 150;
   // fixes score to camera
   scoreText.setScrollFactor(0,0);
+  gameName.setScrollFactor(0,0);
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-150);
