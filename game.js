@@ -16,7 +16,7 @@ const config ={
     default: 'arcade',
     arcade: {
       gravity: { y: 500 },
-      debug: true
+      debug: false
     },
   }
 };
@@ -227,7 +227,7 @@ function goThroughDoor (player, door){
   if(this.diamond.countActive(true) === 0)
   {
     door.disableBody(true, true);
-    endGameText = this.add.text(150, 100, 'Thank You for Playing! \n Refresh Page to Play Again', { fontSize: '32px', fill: '#000' });
+    endGameText = this.add.text(150, 100, 'Thank You for Playing! \n Refresh Page to Play Again!', { fontSize: '32px', fill: '#000' });
     endGameText.setScrollFactor(0,0); 
   }
 }
