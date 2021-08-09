@@ -20,6 +20,7 @@ const config ={
     },
   }
 };
+var endGameText;
 var scoreText;
 var score = 0;
 var stars;
@@ -106,6 +107,7 @@ function create(){
     const spike = this.spikes.create(spikeObject.x, spikeObject.y + 200 - spikeObject.height, 'spike').setOrigin(0, 0);
     spike.body.setSize(spike.width, spike.height - 30).setOffset(0, 30);
   });
+  // diamond objects
   this.diamond = this.physics.add.group({
     allowGravity: false,
     immovable: false
@@ -115,26 +117,41 @@ function create(){
     const diamond = this.diamond.create(diamondObject.x, diamondObject.y + 150 - diamondObject.height, 'diamond').setOrigin(0, 0);
     diamond.body.setSize(diamond.width - 59, diamond.height - 60).setOffset(28.5, 32);
   });
+  // spinner object
+  // this.spinner = this.physics.add.group({
+  //   allowGravity: false,
+  //   immovable: true
+  // });
+  // const spinnerObjects = map.getObjectLayer('Spinner')['objects'];
+  // spinnerObjects.forEach(spinnerObject => {
+  //   const spinner = this.spinner.create(spinnerObject.x, spinnerObject.y + 200 - spinnerObject.height, 'Spinner').setOrigin(0, 0);
+  //   spinner.body.setSize(spinner.width, spinner.height).setOffset(0, 0);
+  // });
+  // door object
   this.door = this.physics.add.group({
     allowGravity: false,
     immovable: true
   });
   const doorObjects = map.getObjectLayer('Door')['objects'];
   doorObjects.forEach(doorObject => {
-    const door = this.door.create(doorObject.x, doorObject.y + 260 - doorObject.height, 'Door').setOrigin(0, 0);
+    const door = this.door.create(doorObject.x, doorObject.y + 195 - doorObject.height, 'Door').setOrigin(0, 0);
     door.body.setSize(door.width, door.height).setOffset(0, 0);
   });
   // score count
   scoreText = this.add.text(50, 50, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-
+  
   // set collision
   platforms.setCollisionByExclusion(-1, true);
   
-  this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
   this.physics.add.collider(this.diamond, platforms);
+  //this.physics.add.collider(this.spinner, platforms);
+  this.physics.add.collider(this.door, platforms);
   this.physics.add.collider(this.diamond, spikeObjects);
+  //actions to do when 2 objects collide
   this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
+  this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+  //this.physics.add.collider(this.player, this.spinner, playerHit, null, this);
+  this.physics.add.collider(this.player, this.door, goThroughDoor, null, this);
   // check to see if player overlaps with star
   this.cameras.main.setBounds(0, 0, 4100, 840);
   this.cameras.main.startFollow(this.player);
@@ -142,8 +159,11 @@ function create(){
 function update() {
   //scoreText.x = this.player.body.position.x; 
   //scoreText.y = this.player.body.position.y - 150;
+  
   // fixes score to camera
   scoreText.setScrollFactor(0,0);
+  //endGameText.setScrollFactor(0,0);
+
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-150);
@@ -196,7 +216,7 @@ function revive(player){
   player.play('idle', true);
   player.setAlpha(0);
 }
-function playerHit(player, spike, spinner){
+function playerHit(player, spinner){
   score -= 150;
   scoreText.setText('Score: ' + score);
   revive(player);
@@ -212,6 +232,16 @@ function collectDiamonds(player, diamond){
  diamond.disableBody(true, true);
   score += 150;
   scoreText.setText('Score: ' + score);
+
+}
+function goThroughDoor (player, door){
+  
+  if(this.diamond.countActive(true) === 0)
+  {
+    door.disableBody(true, true);
+    endGameText = this.add.text(275, 50, 'Thank You for Playing!', { fontSize: '32px', fill: '#000' });
+    endGameText.setScrollFactor(0,0); 
+  }
 }
 
 
