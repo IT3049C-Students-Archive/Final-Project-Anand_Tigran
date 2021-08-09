@@ -119,16 +119,7 @@ function create(){
     const diamond = this.diamond.create(diamondObject.x, diamondObject.y + 150 - diamondObject.height, 'diamond').setOrigin(0, 0);
     diamond.body.setSize(diamond.width - 59, diamond.height - 60).setOffset(28.5, 32);
   });
-  // spinner object
-  // this.spinner = this.physics.add.group({
-  //   allowGravity: false,
-  //   immovable: true
-  // });
-  // const spinnerObjects = map.getObjectLayer('Spinner')['objects'];
-  // spinnerObjects.forEach(spinnerObject => {
-  //   const spinner = this.spinner.create(spinnerObject.x, spinnerObject.y + 200 - spinnerObject.height, 'Spinner').setOrigin(0, 0);
-  //   spinner.body.setSize(spinner.width, spinner.height).setOffset(0, 0);
-  // });
+
   // door object
   this.door = this.physics.add.group({
     allowGravity: false,
@@ -148,21 +139,18 @@ function create(){
   platforms.setCollisionByExclusion(-1, true);
   
   this.physics.add.collider(this.diamond, platforms);
-  //this.physics.add.collider(this.spinner, platforms);
   this.physics.add.collider(this.door, platforms);
   this.physics.add.collider(this.diamond, spikeObjects);
   //actions to do when 2 objects collide
   this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
-  //this.physics.add.collider(this.player, this.spinner, playerHit, null, this);
   this.physics.add.collider(this.player, this.door, goThroughDoor, null, this);
   // check to see if player overlaps with star
   this.cameras.main.setBounds(0, 0, 4100, 840);
   this.cameras.main.startFollow(this.player);
 }
 function update() {
-  //scoreText.x = this.player.body.position.x; 
-  //scoreText.y = this.player.body.position.y - 150;
+
   
   // fixes score to camera
   scoreText.setScrollFactor(0,0);
@@ -235,14 +223,13 @@ function collectDiamonds(player, diamond){
  diamond.disableBody(true, true);
   score += 150;
   scoreText.setText('Score: ' + score);
-
 }
 function goThroughDoor (player, door){
   
   if(this.diamond.countActive(true) === 0)
   {
     door.disableBody(true, true);
-    endGameText = this.add.text(275, 50, 'Thank You for Playing!', { fontSize: '32px', fill: '#000' });
+    endGameText = this.add.text(150, 100, 'Thank You for Playing!', { fontSize: '32px', fill: '#000' });
     endGameText.setScrollFactor(0,0); 
   }
 }
