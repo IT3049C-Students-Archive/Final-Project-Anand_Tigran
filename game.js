@@ -35,7 +35,10 @@ function preload(){
   this.load.image("star","assets/images/star.png");
   //loading the map
   this.load.image("spike","assets/images/spike.png");
+  this.load.image("Spinner","assets/images/spinner.png");
+  this.load.image("Door","assets/images/Door.png");
   this.load.image("diamond","assets/images/diamond.png");
+  
   //load player
   this.load.atlas("player","assets/images/kenney_player.png","assets/images/kenney_player_atlas.json");
   // load tiles
@@ -113,7 +116,24 @@ function create(){
     const diamond = this.diamond.create(diamondObject.x, diamondObject.y + 150 - diamondObject.height, 'diamond').setOrigin(0, 0);
     diamond.body.setSize(diamond.width - 59, diamond.height - 60).setOffset(28.5, 32);
   });
-
+  this.spinner = this.physics.add.group({
+    allowGravity: false,
+    immovable: true
+  });
+  const spinnerObjects = map.getObjectLayer('Spinner')['objects'];
+  spinnerObjects.forEach(spinnerObject => {
+    const spinner = this.spinner.create(spinnerObject.x, spinnerObject.y + 200 - spinnerObject.height, 'Spinner').setOrigin(0, 0);
+    spinner.body.setSize(spinner.width, spinner.height).setOffset(0, 0);
+  });
+  this.door = this.physics.add.group({
+    allowGravity: false,
+    immovable: true
+  });
+  const doorObjects = map.getObjectLayer('Door')['objects'];
+  doorObjects.forEach(doorObject => {
+    const door = this.door.create(doorObject.x, doorObject.y + 260 - doorObject.height, 'Door').setOrigin(0, 0);
+    door.body.setSize(door.width, door.height).setOffset(0, 0);
+  });
   // score count
   scoreText = this.add.text(100, 250, 'score: 0', { fontSize: '32px', fill: '#000' });
 
@@ -122,7 +142,9 @@ function create(){
   platforms.setCollisionByExclusion(-1, true);
   
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
+  this.physics.add.collider(this.player, this.spinner, playerHit, null, this);
   this.physics.add.collider(this.diamond, platforms);
+  this.physics.add.collider(this.spinner, platforms);
   this.physics.add.collider(this.diamond, spikeObjects);
   this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
   // check to see if player overlaps with star
@@ -185,7 +207,7 @@ function revive(player){
   player.play('idle', true);
   player.setAlpha(0);
 }
-function playerHit(player, spike){
+function playerHit(player, spike, spinner){
   score -= 150;
   scoreText.setText('Score: ' + score);
   revive(player);
