@@ -135,7 +135,7 @@ function create(){
     door.body.setSize(door.width, door.height).setOffset(0, 0);
   });
   // score count
-  scoreText = this.add.text(100, 250, 'score: 0', { fontSize: '32px', fill: '#000' });
+  scoreText = this.add.text(50, 50, 'score: 0', { fontSize: '32px', fill: '#000' });
 
 
   // set collision
@@ -153,8 +153,10 @@ function create(){
 }
 
 function update() {
-  scoreText.x = this.player.body.position.x; 
-  scoreText.y = this.player.body.position.y - 150;
+  //scoreText.x = this.player.body.position.x; 
+  //scoreText.y = this.player.body.position.y - 150;
+  // fixes score to camera
+  scoreText.setScrollFactor(0,0);
   // left or right key control
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-150);
