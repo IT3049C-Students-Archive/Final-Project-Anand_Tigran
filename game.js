@@ -29,6 +29,7 @@ var keyW;
 const game = new Phaser.Game(config);
 
 function preload(){
+  // load of images
   this.load.image('gameTitle', "assets/images/gameTitle.png");
   this.load.image("background", "assets/images/background.png");
   this.load.image("spike","assets/images/spike.png");
@@ -39,9 +40,12 @@ function preload(){
   this.load.tilemapTiledJSON('map', 'assets/tilemaps/level1.json');
 }
 function create(){
+  
   this.add.image(400, 300, 'gameTitle');
+  // added background scene
   const backgroundImage = this.add.image(0,0,"background").setOrigin(0,0);
   backgroundImage.setScale(5, 1);
+  // added platform and laoded tileset map
   const map = this.make.tilemap({ key:"map"});
   const tileset = map.addTilesetImage('kenney_simple_platformer', 'tiles');
   const platforms = map.createStaticLayer('Platforms', tileset,0,200);
@@ -49,6 +53,7 @@ function create(){
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(false);
   this.physics.add.collider(this.player, platforms);
+  // animations for player
   this.anims.create({
     key: 'walk',
     frames: this.anims.generateFrameNames('player', {
@@ -69,10 +74,12 @@ function create(){
     frames: [{ key: 'player', frame: 'robo_player_1' }],
     frameRate: 15,
   });
+  // cursor and key binds created
   this.cursors = this.input.keyboard.createCursorKeys();
   keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
   keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    // spikes created and added into map
   this.spikes = this.physics.add.group({
     allowGravity: false,
     immovable: true
@@ -82,6 +89,7 @@ function create(){
     const spike = this.spikes.create(spikeObject.x, spikeObject.y + 200 - spikeObject.height, 'spike').setOrigin(0, 0);
     spike.body.setSize(spike.width, spike.height - 30).setOffset(0, 30);
   });
+  // diamonds created and added into the map
   this.diamond = this.physics.add.group({
     allowGravity: false,
     immovable: false
@@ -91,6 +99,7 @@ function create(){
     const diamond = this.diamond.create(diamondObject.x, diamondObject.y + 150 - diamondObject.height, 'diamond').setOrigin(0, 0);
     diamond.body.setSize(diamond.width - 59, diamond.height - 60).setOffset(28.5, 32);
   });
+  // creation of door and added into map
   this.door = this.physics.add.group({
     allowGravity: false,
     immovable: true
@@ -100,21 +109,26 @@ function create(){
     const door = this.door.create(doorObject.x, doorObject.y + 195 - doorObject.height, 'Door').setOrigin(0, 0);
     door.body.setSize(door.width, door.height).setOffset(0, 0);
   });
+  // name of game and score text
   scoreText = this.add.text(565, 20, 'Score: 0', { fontSize: '32px', fill: '#000' });
   gameName = this.add.text(20, 20, 'Diamond Dash', { fontSize: '32px', fill: '#000' });
   platforms.setCollisionByExclusion(-1, true);
+
   this.physics.add.collider(this.diamond, platforms);
   this.physics.add.collider(this.door, platforms);
   this.physics.add.collider(this.diamond, spikeObjects);
   this.physics.add.overlap(this.player, this.diamond, collectDiamonds, null, this);
   this.physics.add.collider(this.player, this.spikes, playerHit, null, this);
   this.physics.add.collider(this.player, this.door, goThroughDoor, null, this);
+  // camera to follow player
   this.cameras.main.setBounds(0, 0, 4100, 840);
   this.cameras.main.startFollow(this.player);
 }
 function update() {
+  // text to follow camera scrolling
   scoreText.setScrollFactor(0,0);
   gameName.setScrollFactor(0,0);
+  // movement input
   if (this.cursors.left.isDown || keyA.isDown ) {
     this.player.setVelocityX(-150);
     if(this.player.body.onFloor()) {
@@ -137,6 +151,7 @@ function update() {
     this.player.setVelocityY(-450);
     this.player.play('jump', true);
   }
+  // make character face right direction
   if (this.player.body.velocity.x > 0) {
     this.player.setFlipX(false);
   } else if (this.player.body.velocity.x < 0) {
@@ -153,6 +168,7 @@ function update() {
     });
   }
 }
+// respawn poiint for player
 function revive(player){
   player.setVelocity(0,0);
   player.setX(50);
@@ -160,10 +176,13 @@ function revive(player){
   player.play('idle', true);
   player.setAlpha(0);
 }
-function playerHit(player, spinner){
+// when player hit spike 
+function playerHit(player, spike){
+  // decrease score
   score -= 150;
   scoreText.setText('Score: ' + score);
   revive(player);
+  // animation for player respawning
   let tw = this.tweens.add({
     targets: player,
     alpha: 1,
@@ -172,11 +191,13 @@ function playerHit(player, spinner){
     repeat: 5,
   });
 }
+// when player hits diamonds
 function collectDiamonds(player, diamond){
  diamond.disableBody(true, true);
   score += 150;
   scoreText.setText('Score: ' + score);
 }
+// when player collects all the diamonds and hits door
 function goThroughDoor (player, door){
   if(this.diamond.countActive(true) === 0)
   {
