@@ -20,6 +20,20 @@
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4
 </data>
  </layer>
+ <objectgroup id="3" name="Spikes">
+  <object id="1" gid="71" x="192" y="448" width="64" height="64"/>
+  <object id="2" gid="71" x="448" y="256" width="64" height="64"/>
+  <object id="3" gid="71" x="672" y="448" width="64" height="64"/>
+  <object id="5" gid="71" x="1472.3" y="640" width="64" height="64"/>
+  <object id="6" gid="71" x="1536.27" y="640" width="64" height="64"/>
+  <object id="7" gid="71" x="1664.22" y="192" width="64" height="64"/>
+  <object id="8" gid="71" x="1217.38" y="446.916" width="64" height="64"/>
+  <object id="9" gid="71" x="1794" y="448" width="64" height="64"/>
+  <object id="11" gid="71" x="2866.93" y="448.744" width="64" height="64"/>
+  <object id="13" gid="71" x="3711.39" y="448" width="64" height="64"/>
+  <object id="31" gid="71" x="896.535" y="448" width="64" height="64"/>
+  <object id="32" gid="71" x="962.337" y="448" width="64" height="64"/>
+ </objectgroup>
  <objectgroup id="8" name="Diamonds">
   <object id="15" gid="50" x="702.786" y="254.995" width="64" height="64"/>
   <object id="16" gid="50" x="832.561" y="258.65" width="64" height="64"/>
@@ -37,20 +51,5 @@
   <object id="28" gid="50" x="1466.82" y="371.976" width="64" height="64"/>
   <object id="29" gid="50" x="1549.07" y="368.32" width="64" height="64"/>
   <object id="30" gid="50" x="1344.35" y="189.193" width="64" height="64"/>
- </objectgroup>
- <objectgroup id="3" name="Spikes">
-  <object id="1" gid="71" x="192" y="448" width="64" height="64"/>
-  <object id="2" gid="71" x="448" y="256" width="64" height="64"/>
-  <object id="3" gid="71" x="672" y="448" width="64" height="64"/>
-  <object id="5" gid="71" x="1472.3" y="637.01" width="64" height="64"/>
-  <object id="6" gid="71" x="1536.27" y="637.01" width="64" height="64"/>
-  <object id="7" gid="71" x="1664.22" y="191.021" width="64" height="64"/>
-  <object id="8" gid="71" x="1280.38" y="446.916" width="64" height="64"/>
-  <object id="9" gid="71" x="1728.2" y="446.916" width="64" height="64"/>
-  <object id="10" gid="71" x="2718.88" y="448.744" width="64" height="64"/>
-  <object id="11" gid="71" x="2866.93" y="448.744" width="64" height="64"/>
-  <object id="13" gid="71" x="3711.39" y="445.089" width="64" height="64"/>
-  <object id="31" gid="71" x="896.535" y="446.916" width="64" height="64"/>
-  <object id="32" gid="71" x="962.337" y="445.089" width="64" height="64"/>
  </objectgroup>
 </map>
